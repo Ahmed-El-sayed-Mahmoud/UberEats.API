@@ -14,10 +14,9 @@ namespace UberEats.Application.Profiles
         public DishProfile()
         {
             CreateMap<Dish, DishDTO>()
-                .ForMember(d => d.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
-                .ForMember(d => d.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
-                .ForMember(d => d.CategoryDescription, opt => opt.MapFrom(src => src.Category.Description));
+                .ForMember(d => d.CategoryId, opt => opt.MapFrom(src => src.CategoryId));
                 
+
 
         }
     }

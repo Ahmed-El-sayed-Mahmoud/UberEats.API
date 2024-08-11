@@ -6,13 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UberEats.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace UberEats.Application.DTOs
 {
     public class DishDTO
     {
-        public int Id { get; set; }
         [MaxLength(100)]
+        [Required (ErrorMessage ="Name of the dish is mandatory")]
         public string Name { get; set; }
         [MaxLength(300)]
         public string? Description { get; set; }
@@ -22,13 +23,8 @@ namespace UberEats.Application.DTOs
         public int? Calories { get; set; }
 
         public int CategoryId { get; set; }
-        [MaxLength(100)]
-        public CategoryName CategoryName { get; set; }
-        [MaxLength(200)]
-        public string? CategoryDescription { get; set; }
+        public string? CategoryName { get; set; }
         
-        [MaxLength(300)]
-        public List<DishImage> ImageUrls { get; set; } = new List<DishImage>();
-        public int RestaurantId { get; set; }
+        public List<IFormFile> ImageUrls { get; set; } = new List<IFormFile>();
     }
 }

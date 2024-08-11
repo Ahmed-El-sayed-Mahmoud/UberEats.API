@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using MediatR;
+using System.ComponentModel.DataAnnotations;
+using UberEats.Application.DTOs;
 
-namespace UberEats.Application.DTOs
+namespace UberEats.Application.Restauransts.Commands.CreateRestaurant
 {
-    public class CreateRestaurantDto
+    public class CreateRestaurantCommand : IRequest<int>
     {
         [MaxLength(100)]
         [Required]
@@ -32,5 +35,6 @@ namespace UberEats.Application.DTOs
         [MaxLength(100)]
         [Required]
         public string? Country { get; set; }
+
     }
 }

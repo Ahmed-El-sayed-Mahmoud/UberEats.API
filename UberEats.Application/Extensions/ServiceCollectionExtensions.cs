@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UberEats.Application.IServices;
-using UberEats.Application.Services;
 
 namespace UberEats.Application.Extensions
 {
@@ -14,8 +8,12 @@ namespace UberEats.Application.Extensions
     {
         public static void ConfigureApplication(this IServiceCollection services)
         {
-            services.AddScoped<IRestaurantServices, RestaurantServices>();
-            services.AddAutoMapper(typeof(ServiceCollectionExtensions).Assembly);
+            var appAssembly = typeof(ServiceCollectionExtensions).Assembly;
+
+            services.AddAutoMapper(appAssembly);
+
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(appAssembly));
+
         }
     }
 }

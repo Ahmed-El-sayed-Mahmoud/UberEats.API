@@ -13,6 +13,8 @@ namespace UberEats.Domain.IRepositories
         Task<Restaurant?> GetRestaurantByIdAsync(int  id);
         Task<int> Add(Restaurant entity);
         Restaurant? GetRestaurantByName(string name);
+        Task DeleteRestaurantAsync(Restaurant restaurant);
+        Task SaveChangesAsync();
 
     }
 }

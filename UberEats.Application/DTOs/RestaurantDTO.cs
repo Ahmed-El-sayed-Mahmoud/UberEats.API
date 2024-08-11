@@ -35,6 +35,7 @@ namespace UberEats.Application.DTOs
         public string? PostalCode { get; set; }
         [MaxLength(100)]
         public string? Country { get; set; }
-        public ICollection<DishDTO> Dishes { get; set; } = new List<DishDTO>();
+        
+        public ICollection<DishDTO>? Dishes { get; set; } = new List<DishDTO>();
     }
 }

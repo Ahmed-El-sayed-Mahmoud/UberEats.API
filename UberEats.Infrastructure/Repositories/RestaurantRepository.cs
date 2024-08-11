@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,12 @@ namespace UberEats.Infrastructure.Repositories
     public class RestaurantRepository : IRestaurantRepository
     {
         private readonly ApplicationDbContext _db;
-        public RestaurantRepository(ApplicationDbContext applicationDbContext) 
+       
+        
+        public RestaurantRepository(ApplicationDbContext applicationDbContext ) 
         {
             _db = applicationDbContext;
+            
         }
 
         public async Task<IEnumerable<Restaurant>?> GetRestaurantsAsync()
@@ -36,6 +40,17 @@ namespace UberEats.Infrastructure.Repositories
         public  Restaurant? GetRestaurantByName(string name)
         {
             return _db.Restaurants.SingleOrDefault(r => r.Name == name);
+        }
+
+        public async Task DeleteRestaurantAsync(Restaurant entity)
+        {
+            _db.Restaurants.Remove(entity);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+              await _db.SaveChangesAsync();
         }
     }
 }

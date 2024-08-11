@@ -19,8 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-//app.UseExceptionHandler();
-//app.UseStatusCodePages();
+
 
 var scope=app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<ISeeder>();
