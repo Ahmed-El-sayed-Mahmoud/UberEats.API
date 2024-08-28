@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Serilog;
 using UberEats.Application.Extensions;
 using UberEats.Infrastructure.ApplicationContext;
 using UberEats.Infrastructure.Extensions;
@@ -18,8 +19,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+/////logging
+///
+builder.Host.UseSerilog((context, config) =>
+{
+    config.ReadFrom.Configuration(context.Configuration);
+});
+builder.Services.AddSwaggerGen();
+
+
+
 var app = builder.Build();
 
+
+app.UseSerilogRequestLogging();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 var scope=app.Services.CreateScope();
 var seeder = scope.ServiceProvider.GetRequiredService<ISeeder>();

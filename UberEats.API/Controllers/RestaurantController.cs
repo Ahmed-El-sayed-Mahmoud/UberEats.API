@@ -22,7 +22,9 @@ namespace UberEats.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [ProducesResponseType(statusCode:StatusCodes.Status404NotFound)]
+        [ProducesResponseType(statusCode:StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<RestaurantDTO>>> GetAll()
         {
             var result = await _mediator.Send(new GetAllRestaurantsQuery());
             if (result == null)
@@ -32,7 +34,9 @@ namespace UberEats.API.Controllers
             return Ok(result);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRestaurantById(int id)
+        [ProducesResponseType(statusCode:StatusCodes.Status404NotFound)]
+        [ProducesResponseType(statusCode:StatusCodes.Status200OK)]
+        public async Task<ActionResult<RestaurantDTO>> GetRestaurantById(int id)
         {
             RestaurantDTO? restaurant = await _mediator.Send(new GetRestaurantByIdQuery(id));
             if(restaurant == null)
@@ -42,6 +46,9 @@ namespace UberEats.API.Controllers
             return Ok(restaurant);
         }
         [HttpPost("create")]
+        [ProducesResponseType(statusCode: StatusCodes.Status201Created)]
+        [ProducesResponseType(statusCode: StatusCodes.Status409Conflict)]
+
         public async Task<IActionResult> Create([FromForm]CreateRestaurantCommand command)
         {
             int id = await _mediator.Send(command);
@@ -53,6 +60,9 @@ namespace UberEats.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(statusCode: StatusCodes.Status204NoContent)]
+
         public async Task<IActionResult> DeleteRestaurant(int id)
         {
             var success=await  _mediator.Send(new DeleteRestaurantCommand(id));
@@ -62,6 +72,9 @@ namespace UberEats.API.Controllers
         }
 
         [HttpPatch("{id}")]
+        [ProducesResponseType(statusCode: StatusCodes.Status404NotFound)]
+        [ProducesResponseType(statusCode: StatusCodes.Status204NoContent)]
+
         public async Task<IActionResult> UpdateRestaurant([FromRoute]int id,UpdateRestaurantCommand command)
         {
             command.Id = id;
