@@ -39,10 +39,6 @@ namespace UberEats.API.Controllers
         public async Task<ActionResult<RestaurantDTO>> GetRestaurantById(int id)
         {
             RestaurantDTO? restaurant = await _mediator.Send(new GetRestaurantByIdQuery(id));
-            if(restaurant == null)
-            {
-                return NotFound(new NotFoundError("No Restaurant was Found"));
-            }
             return Ok(restaurant);
         }
         [HttpPost("create")]
@@ -52,10 +48,7 @@ namespace UberEats.API.Controllers
         public async Task<IActionResult> Create([FromForm]CreateRestaurantCommand command)
         {
             int id = await _mediator.Send(command);
-            if(id == -1) 
-            {
-                return Conflict(new ConflictError("A restaurant with the same name alreay Exist"));
-            }
+           
             return CreatedAtAction(nameof(GetRestaurantById), new { id }, null);
         }
 
@@ -65,9 +58,7 @@ namespace UberEats.API.Controllers
 
         public async Task<IActionResult> DeleteRestaurant(int id)
         {
-            var success=await  _mediator.Send(new DeleteRestaurantCommand(id));
-            if (!success)
-                return NotFound(new NotFoundError("No Restaurant with this ID was found"));
+            await  _mediator.Send(new DeleteRestaurantCommand(id));
             return NoContent();
         }
 
@@ -78,9 +69,7 @@ namespace UberEats.API.Controllers
         public async Task<IActionResult> UpdateRestaurant([FromRoute]int id,UpdateRestaurantCommand command)
         {
             command.Id = id;
-            var success = await _mediator.Send(command);
-            if (!success)
-                return NotFound(new NotFoundError("No Restaurant with this ID was found"));
+            await _mediator.Send(command);
             return NoContent();
      
         }

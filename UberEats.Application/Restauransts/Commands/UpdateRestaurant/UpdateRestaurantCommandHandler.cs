@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UberEats.Domain.Entities;
+using UberEats.Domain.Exceptions;
 using UberEats.Domain.IRepositories;
 
 namespace UberEats.Application.Restauransts.Commands.UpdateRestaurant
 {
-    public class UpdateRestaurantCommandHandler : IRequestHandler<UpdateRestaurantCommand, bool>
+    public class UpdateRestaurantCommandHandler : IRequestHandler<UpdateRestaurantCommand>
     {
         private readonly IMapper _mapper;
         private readonly IRestaurantRepository _repository;
@@ -18,17 +20,16 @@ namespace UberEats.Application.Restauransts.Commands.UpdateRestaurant
             _repository = restaurantRepository;
             _mapper = mapper;
         }
-        public async Task<bool> Handle(UpdateRestaurantCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateRestaurantCommand request, CancellationToken cancellationToken)
         {
            
             var restaurant =await  _repository.GetRestaurantByIdAsync( request.Id );
             if (restaurant == null)
             {
-                return false;
+                throw new NotFoundException(nameof (Restaurant),request.Id.ToString());
             }
             _mapper.Map(request,restaurant);
             await _repository.SaveChangesAsync();
-            return true;
 
         }
     }

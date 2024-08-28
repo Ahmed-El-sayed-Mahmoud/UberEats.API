@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UberEats.Application.DTOs;
 using UberEats.Domain.Entities;
+using UberEats.Domain.Exceptions;
 using UberEats.Domain.IRepositories;
 
 namespace UberEats.Application.Restauransts.Commands.CreateRestaurant
@@ -29,7 +30,7 @@ namespace UberEats.Application.Restauransts.Commands.CreateRestaurant
             bool Exist = _restaurantRepository.GetRestaurantByName(request.Name) != null;
 
             if (Exist)
-                return -1;
+                throw new ConflictException(nameof(Restaurant), request.Name);
 
             return  await _restaurantRepository.Add(restaurant);
         }

@@ -7,11 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UberEats.Application.DTOs;
 using UberEats.Domain.Entities;
+using UberEats.Domain.Exceptions;
 using UberEats.Domain.IRepositories;
 
 namespace UberEats.Application.Restauransts.Quiries.GetRestaurantById
 {
-    public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQuery, RestaurantDTO?>
+    public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQuery, RestaurantDTO>
 
     {
         private readonly IMapper _mapper;
@@ -22,9 +23,14 @@ namespace UberEats.Application.Restauransts.Quiries.GetRestaurantById
             _mapper = mapper;
             _restaurantRepository = repository;
         }
-        public async Task<RestaurantDTO?> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
+        public async Task<RestaurantDTO> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
         {
-             return _mapper.Map<RestaurantDTO>(await _restaurantRepository.GetRestaurantByIdAsync(request.Id));
+            Restaurant res = await _restaurantRepository.GetRestaurantByIdAsync(request.Id);
+            if(res==null)
+            {
+                throw new NotFoundException(nameof(Restaurant), request.Id.ToString());
+            }
+             return _mapper.Map<RestaurantDTO>(res);
   
         }
     }

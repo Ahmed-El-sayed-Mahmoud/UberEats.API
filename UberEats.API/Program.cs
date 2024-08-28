@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Serilog;
+using UberEats.API.Middlewares;
 using UberEats.Application.Extensions;
 using UberEats.Infrastructure.ApplicationContext;
 using UberEats.Infrastructure.Extensions;
@@ -15,9 +16,12 @@ builder.Services.ConfigureApplication();
 builder.Services.AddControllers();
 
 
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 /////logging
 ///
@@ -25,11 +29,12 @@ builder.Host.UseSerilog((context, config) =>
 {
     config.ReadFrom.Configuration(context.Configuration);
 });
-builder.Services.AddSwaggerGen();
+
 
 
 
 var app = builder.Build();
+
 
 
 app.UseSerilogRequestLogging();
@@ -50,6 +55,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapControllers();
 

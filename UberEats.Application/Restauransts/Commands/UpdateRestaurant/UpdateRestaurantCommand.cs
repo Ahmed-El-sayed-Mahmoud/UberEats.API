@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UberEats.Application.Restauransts.Commands.UpdateRestaurant
 {
-    public class UpdateRestaurantCommand:IRequest<bool>
+    public class UpdateRestaurantCommand:IRequest
     {
         [Required]
         public int Id { get; set; }
