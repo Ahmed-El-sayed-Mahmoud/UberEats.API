@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
@@ -8,23 +9,22 @@ using System.Threading.Tasks;
 using UberEats.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 
-namespace UberEats.Application.DTOs
+namespace UberEats.Application.Dishes.Commands.CreateDish
 {
-    public class DishDTO
+    public class CreateDishCommand:IRequest<int>
     {
-        [MaxLength(100)]
-        [Required (ErrorMessage ="Name of the dish is mandatory")]
+        [Required]
         public string Name { get; set; }
         [MaxLength(300)]
         public string? Description { get; set; }
+        [Required]
         public decimal Price { get; set; }
         public bool? IsVegan { get; set; }
         public bool? IsGlutenFree { get; set; }
         public int? Calories { get; set; }
-
+        [Required]
         public int CategoryId { get; set; }
-        public string? CategoryName { get; set; }
-        
-        public List<DishImageDto> ImageUrls { get; set; } = new List<DishImageDto>();
+        public List<IFormFile>? ImageFiles { get; set; } = new List<IFormFile>();
+        public int RestaurantId { get; set; }
     }
 }

@@ -29,6 +29,6 @@ namespace UberEats.Domain.Entities
         public string? ContactEmail { get; set; }
         //public List<string>? Reviews { get; set; } = new List<string>();
         public Address? Address { get; set; }
-        public ICollection<Dish> Dishes { get; set; }=new List<Dish>(); 
+        public ICollection<Dish>? Dishes { get; set; }=new List<Dish>(); 
     }
 }

@@ -22,6 +22,8 @@ namespace UberEats.Infrastructure.Extensions
             });
             services.AddScoped<ISeeder, Seeder>();
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+            services.AddScoped<IDishRepository, DishRepository>();
+            services.AddScoped<IDishImageRepository, DishImageRepository>();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace UberEats.Domain.Entities
         public CategoryName Name { get; set; }
         [MaxLength(200)]
         public string? Description { get; set; }
-        public ICollection<Dish> Dishes { get; set; } = new List<Dish>();
+        public ICollection<Dish>? Dishes { get; set; } = new List<Dish>();
 
 
     }

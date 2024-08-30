@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.FileProviders;
 using Serilog;
+using System.Net.NetworkInformation;
 using UberEats.API.Middlewares;
 using UberEats.Application.Extensions;
 using UberEats.Infrastructure.ApplicationContext;
@@ -15,6 +17,7 @@ builder.Services.ConfigureApplication();
 
 builder.Services.AddControllers();
 
+builder.Services.AddHttpContextAccessor(); // for Image Uploads
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -56,7 +59,14 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+
 app.UseMiddleware<ErrorHandlingMiddleware>();
+
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider=new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/DishImages")),
+     RequestPath="/wwwroot/DishImages"
+});
 
 app.MapControllers();
 

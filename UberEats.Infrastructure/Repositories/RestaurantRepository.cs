@@ -24,7 +24,10 @@ namespace UberEats.Infrastructure.Repositories
 
         public async Task<IEnumerable<Restaurant>?> GetRestaurantsAsync()
         {
-            return await _db.Restaurants.Include(r=>r.Dishes).ToListAsync();
+            return await _db.Restaurants
+                .Include(r=>r.Dishes)
+                .ThenInclude(d=>d.ImageUrls)
+                .ToListAsync();
         }
         public async Task<Restaurant?> GetRestaurantByIdAsync(int id)
         {
