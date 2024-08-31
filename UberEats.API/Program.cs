@@ -4,6 +4,7 @@ using Serilog;
 using System.Net.NetworkInformation;
 using UberEats.API.Middlewares;
 using UberEats.Application.Extensions;
+using UberEats.Domain.Entities;
 using UberEats.Infrastructure.ApplicationContext;
 using UberEats.Infrastructure.Extensions;
 using UberEats.Infrastructure.Seeders;
@@ -56,6 +57,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//app.MapIdentityApi<User>()
 
 app.UseAuthorization();
 

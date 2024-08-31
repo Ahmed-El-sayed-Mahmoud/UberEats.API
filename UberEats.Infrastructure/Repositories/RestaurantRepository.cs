@@ -31,7 +31,7 @@ namespace UberEats.Infrastructure.Repositories
         }
         public async Task<Restaurant?> GetRestaurantByIdAsync(int id)
         {
-            return await _db.Restaurants.SingleOrDefaultAsync(r => r.Id == id);
+            return await _db.Restaurants.Include(res=>res.Dishes).ThenInclude(d => d.ImageUrls)?.SingleOrDefaultAsync(r => r.Id == id);
         }
         public async Task<int> Add(Restaurant entity)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,11 @@ namespace UberEats.Infrastructure.Repositories
             var x= await _db.Dishes.AddAsync(dish);
             await _db.SaveChangesAsync();
             return x.Entity.Id;
+        }
+
+        public async Task<Dish?> GetDishById(int id)
+        {
+            return await _db.Dishes.FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public Task UpdateDish(Dish dish)

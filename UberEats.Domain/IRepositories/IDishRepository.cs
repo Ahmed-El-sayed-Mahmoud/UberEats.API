@@ -11,5 +11,6 @@ namespace UberEats.Domain.IRepositories
     {
         Task<int> CreateDish(Dish dish);
         Task UpdateDish(Dish dish);
+        Task <Dish> GetDishById(int id);
     }
 }

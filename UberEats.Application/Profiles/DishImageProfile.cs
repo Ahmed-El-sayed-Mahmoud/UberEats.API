@@ -15,12 +15,6 @@ namespace UberEats.Application.Profiles
         public DishImageProfile()
         {
             CreateMap<DishImage, DishImageDto>();
-               
-            
-
-
-
-
         }
     }
 }

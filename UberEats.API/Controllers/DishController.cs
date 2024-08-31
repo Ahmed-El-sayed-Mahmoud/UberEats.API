@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UberEats.Application.Dishes.Commands.CreateDish;
+using UberEats.Application.Dishes.Quiries.GetDishById;
 using UberEats.Application.Images.AddImage;
 
 namespace UberEats.API.Controllers
@@ -26,5 +27,12 @@ namespace UberEats.API.Controllers
             }
             return NoContent();
         }
+        [HttpGet("{dishId}")]
+        public async Task<IActionResult> GetDish([FromRoute] int restaurantId, [FromRoute] int dishId)
+        {
+            var res=await _mediator.Send(new GetDishByIdQuery() { DishId= dishId , RestaurantId=restaurantId});
+            return Ok(res);
+        }
+
     }
 }

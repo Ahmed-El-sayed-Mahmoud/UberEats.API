@@ -12,6 +12,7 @@ namespace UberEats.Application.DTOs
 {
     public class DishDTO
     {
+        public int Id { get; set; }
         [MaxLength(100)]
         [Required (ErrorMessage ="Name of the dish is mandatory")]
         public string Name { get; set; }
