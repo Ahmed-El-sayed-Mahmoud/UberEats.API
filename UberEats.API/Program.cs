@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Net.NetworkInformation;
 using UberEats.API.Middlewares;
@@ -23,7 +24,35 @@ builder.Services.AddHttpContextAccessor(); // for Image Uploads
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    
+    c.AddSecurityDefinition("bearerAuth", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",  
+        In = ParameterLocation.Header, 
+        Type = SecuritySchemeType.Http, 
+        Scheme = "Bearer"  
+    });
+
+    // Define the security requirement (i.e., the need to use the above scheme)
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "bearerAuth"  // The ID must match the one defined above
+                }
+            },
+            new string[] {}  // Scopes - empty if none are defined
+        }
+    });
+});
+
 
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
@@ -58,7 +87,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.MapIdentityApi<User>()
+app.MapGroup("api/identity").MapIdentityApi<User>();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

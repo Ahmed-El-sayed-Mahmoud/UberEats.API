@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UberEats.API.Errors;
 using UberEats.Application.DTOs;
@@ -14,6 +15,8 @@ namespace UberEats.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    [Authorize]
     public class RestaurantController : ControllerBase
     {
         private readonly IMediator _mediator;

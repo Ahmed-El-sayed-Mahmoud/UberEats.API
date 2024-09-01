@@ -17,11 +17,9 @@ namespace UberEats.Infrastructure.Extensions
             {
                 options.UseSqlServer(ConnectionString);
             });
-            services.AddIdentity<User,IdentityRole>(options =>
-            {
-                options.Password.RequireDigit = true;
-                options.Password.RequireUppercase = true;
-            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            services.AddIdentityApiEndpoints<User>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
             services.AddScoped<ISeeder, Seeder>();
